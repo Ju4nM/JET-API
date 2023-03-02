@@ -6,7 +6,6 @@ export class CreateUserDto {
     @MaxLength(15)
     firstName: string;
 
-    @IsString()
     @MaxLength(15)
     secondName: string;
 

@@ -10,7 +10,7 @@ export class User {
 	@Prop({required: true})
 	firstName: string;
 
-	@Prop({required: true})
+	@Prop()
 	secondName: string;
 
 	@Prop({required: true})
