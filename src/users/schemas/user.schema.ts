@@ -8,10 +8,7 @@ export type UserDocument = HydratedDocument<User>;
 })
 export class User {
 	@Prop({required: true})
-	firstName: string;
-
-	@Prop()
-	secondName: string;
+	names: string;
 
 	@Prop({required: true})
 	firstLastName: string;
@@ -22,7 +19,7 @@ export class User {
 	@Prop({ unique: true, required: true })
 	userName: string;
 
-	@Prop({ unique: true, required: true })
+	@Prop({ unique: true, required: false })
 	email: string;
 
 	@Prop({required: true})
