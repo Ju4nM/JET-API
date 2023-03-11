@@ -7,13 +7,12 @@ export type TemperatureDocument = HydratedDocument<Temperature>;
 
 @Schema({ timestamps: true })
 export class Temperature {
+	@Prop({ required: true })
+	temperature: number;
 
-    @Prop({ required: true })
-    temperature: number;
-
-    @Prop({ type: Types.ObjectId, ref: Sensor.name, required: true })
-    @Type(() => Sensor)
-    sensor: Sensor;
+	@Prop({ type: Types.ObjectId, ref: Sensor.name, required: true })
+	@Type(() => Sensor)
+	sensor: Sensor;
 }
 
 export const TemperatureSchema = SchemaFactory.createForClass(Temperature);

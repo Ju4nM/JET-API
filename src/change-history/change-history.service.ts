@@ -3,13 +3,16 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { CreateChangeHistoryDto } from "./dto/create-change-history.dto";
 import { UpdateChangeHistoryDto } from "./dto/update-change-history.dto";
-import { ChangeHistory, ChangeHistoryDocument } from "./schemas/change-history.schema";
+import {
+	ChangeHistory,
+	ChangeHistoryDocument,
+} from "./schemas/change-history.schema";
 
 @Injectable()
 export class ChangeHistoryService {
-	
-	constructor (
-		@InjectModel(ChangeHistory.name) private ChangeHistoryModel: Model<ChangeHistoryDocument>
+	constructor(
+		@InjectModel(ChangeHistory.name)
+		private ChangeHistoryModel: Model<ChangeHistoryDocument>,
 	) {}
 
 	create(createChangeHistoryDto: CreateChangeHistoryDto) {
@@ -26,7 +29,10 @@ export class ChangeHistoryService {
 	}
 
 	update(id: string, updateChangeHistoryDto: UpdateChangeHistoryDto) {
-		return this.ChangeHistoryModel.findByIdAndUpdate(id, updateChangeHistoryDto);
+		return this.ChangeHistoryModel.findByIdAndUpdate(
+			id,
+			updateChangeHistoryDto,
+		);
 	}
 
 	remove(id: string) {

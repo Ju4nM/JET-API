@@ -1,10 +1,9 @@
 import { IsBoolean, IsMongoId } from "class-validator";
 
 export class CreateChangeHistoryDto {
+	@IsBoolean()
+	state: boolean;
 
-    @IsBoolean()
-    state: boolean;
-
-    @IsMongoId()
-    user: string;
+	@IsMongoId()
+	user: string;
 }

@@ -7,9 +7,8 @@ import { Sensor, SensorDocument } from "./schemas/sensor.schema";
 
 @Injectable()
 export class SensorsService {
-	
-	constructor (
-		@InjectModel(Sensor.name) private SensorModel: Model<SensorDocument>
+	constructor(
+		@InjectModel(Sensor.name) private SensorModel: Model<SensorDocument>,
 	) {}
 
 	create(createSensorDto: CreateSensorDto) {
@@ -18,11 +17,15 @@ export class SensorsService {
 	}
 
 	findAll() {
-		return this.SensorModel.find().populate("user").populate("limitTemperature");
+		return this.SensorModel.find()
+			.populate("user")
+			.populate("limitTemperature");
 	}
 
 	findOne(id: string) {
-		return this.SensorModel.findById(id).populate("user").populate("limitTemperature");
+		return this.SensorModel.findById(id)
+			.populate("user")
+			.populate("limitTemperature");
 	}
 
 	update(id: string, updateSensorDto: UpdateSensorDto) {

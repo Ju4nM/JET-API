@@ -7,16 +7,15 @@ export type ChangeHistoryDocument = HydratedDocument<ChangeHistory>;
 
 @Schema()
 export class ChangeHistory {
+	@Prop({ default: now, required: true })
+	dateOfChange: Date;
 
-    @Prop({ default: now, required: true })
-    dateOfChange: Date;
+	@Prop({ required: true })
+	state: boolean;
 
-    @Prop({required: true})
-    state: boolean;
-
-    @Prop({type: Types.ObjectId, ref: User.name})
-    @Type(() => User)
-    user: User;
+	@Prop({ type: Types.ObjectId, ref: User.name })
+	@Type(() => User)
+	user: User;
 }
 
 export const ChangeHistorySchema = SchemaFactory.createForClass(ChangeHistory);

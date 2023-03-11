@@ -2,7 +2,10 @@ import { Module } from "@nestjs/common";
 import { LimitTemperaturesService } from "./limit-temperatures.service";
 import { LimitTemperaturesController } from "./limit-temperatures.controller";
 import { MongooseModule } from "@nestjs/mongoose";
-import { LimitTemperature, LimitTemperatureSchema } from "./schemas/limit-temperature.schema";
+import {
+	LimitTemperature,
+	LimitTemperatureSchema,
+} from "./schemas/limit-temperature.schema";
 import { User, UserSchema } from "src/users/schemas/user.schema";
 
 @Module({
@@ -10,13 +13,13 @@ import { User, UserSchema } from "src/users/schemas/user.schema";
 		MongooseModule.forFeature([
 			{
 				name: LimitTemperature.name,
-				schema: LimitTemperatureSchema
+				schema: LimitTemperatureSchema,
 			},
 			{
 				name: User.name,
-				schema: UserSchema 
-			}
-		])
+				schema: UserSchema,
+			},
+		]),
 	],
 	controllers: [LimitTemperaturesController],
 	providers: [LimitTemperaturesService],

@@ -8,27 +8,26 @@ export type SensorDocument = HydratedDocument<Sensor>;
 
 @Schema({ timestamps: true })
 export class Sensor {
+	@Prop({ required: true })
+	sensorName: string;
 
-    @Prop({ required: true })
-    sensorName: string;
+	@Prop({ required: true })
+	sensorSerialNumber: string;
 
-    @Prop({ required: true })
-    sensorSerialNumber: string;
+	@Prop({ default: true, required: true })
+	state: boolean;
 
-    @Prop({ default: true, required: true })
-    state: boolean;
+	@Prop({ default: true, required: true })
+	isActive: boolean;
 
-    @Prop({ default: true, required: true })
-    isActive: boolean;
+	@Prop({ type: Types.ObjectId, ref: User.name, required: true })
+	@Type(() => User)
+	user: User;
 
-    @Prop({ type: Types.ObjectId, ref: User.name, required: true })
-    @Type(() => User)
-    user: User;
-
-    // TODO: do this
-    @Prop({ type: Types.ObjectId, ref: LimitTemperature.name, required: true })
-    @Type(() => LimitTemperature)
-    limitTemperature: LimitTemperature;
+	// TODO: do this
+	@Prop({ type: Types.ObjectId, ref: LimitTemperature.name, required: true })
+	@Type(() => LimitTemperature)
+	limitTemperature: LimitTemperature;
 }
 
 export const SensorSchema = SchemaFactory.createForClass(Sensor);

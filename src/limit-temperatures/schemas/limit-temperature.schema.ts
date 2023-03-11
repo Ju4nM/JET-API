@@ -7,13 +7,13 @@ export type LimitTemperatureDocument = HydratedDocument<LimitTemperature>;
 
 @Schema({ timestamps: true })
 export class LimitTemperature {
+	@Prop({ required: true })
+	limitTemperature: number;
 
-    @Prop({ required: true })
-    limitTemperature: number;
-
-    @Prop({ type: Types.ObjectId, ref: User.name, required: true })
-    @Type(() => User)
-    user: User;
+	@Prop({ type: Types.ObjectId, ref: User.name, required: true })
+	@Type(() => User)
+	user: User;
 }
 
-export const LimitTemperatureSchema = SchemaFactory.createForClass(LimitTemperature);
+export const LimitTemperatureSchema =
+	SchemaFactory.createForClass(LimitTemperature);

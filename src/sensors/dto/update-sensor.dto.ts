@@ -3,10 +3,9 @@ import { IsBoolean } from "class-validator";
 import { CreateSensorDto } from "./create-sensor.dto";
 
 export class UpdateSensorDto extends PartialType(CreateSensorDto) {
+	@IsBoolean()
+	state: boolean;
 
-    @IsBoolean()
-    state: boolean;
-
-    @IsBoolean()
-    isActive: boolean;
+	@IsBoolean()
+	isActive: boolean;
 }
