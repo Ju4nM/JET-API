@@ -8,7 +8,9 @@ async function bootstrap() {
 	app.use(cookieParser());
 	app.useGlobalPipes(new ValidationPipe());
 	app.enableCors({
-		origin: ["http://localhost:4200", "jetapptest.somee.com", "jetclimatizationapp.somee.com"],
+		// origin: ["http://localhost:4200", "jetapptest.somee.com", "jetclimatizationapp.somee.com"],
+		// origin: "http://localhost:4200",
+		origin: "http://jetapptest.somee.com",
 		credentials: true
 	});
 	await app.listen(3000);
