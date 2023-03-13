@@ -6,10 +6,12 @@ import {
 	Put,
 	Param,
 	Delete,
+	Req,
 } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { Request } from "express";
 
 @Controller("users")
 export class UsersController {
@@ -21,7 +23,7 @@ export class UsersController {
 	}
 
 	@Get()
-	async findAll() {
+	async findAll(@Req() request: Request) {
 		return await this.usersService.findAll();
 	}
 

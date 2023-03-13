@@ -27,6 +27,9 @@ export class User {
 
 	@Prop({ default: false, required: true })
 	userType: boolean;
+
+	@Prop({default: null})
+	auth_token: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

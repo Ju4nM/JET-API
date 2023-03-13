@@ -1,22 +1,34 @@
 import {
 	Controller,
-	Get,
 	Post,
 	Body,
-	Patch,
-	Param,
-	Delete,
+	Res,
+	UseGuards,
+	Get,
+	Req,
 } from "@nestjs/common";
+import {hash} from "bcrypt";
+import { Request, Response } from "express";
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto/auth.dto"
+import { JwtAuthGuard } from "./guards/jwt-auth.guard";
 
 @Controller("auth")
 export class AuthController {
 	constructor(private readonly authService: AuthService) {}
 
-	@Post("auth")
-	create(@Body() authDto: AuthDto) {
-		return this.authService.auth(authDto);
+	@UseGuards(JwtAuthGuard)
+	@Post()
+	async auth(@Body() authDto: AuthDto, @Res() res: Response, @Req() req: Request) {
+		let {auth_token} = await this.authService.auth(authDto);
+		return res.cookie("auth_token", auth_token).send()
+	}
+
+
+	@Post("login")
+	async login (@Body() authDto: AuthDto, @Res() res: Response ) {
+		let payload = await this.authService.auth(authDto);
+		return res.cookie("auth_token", payload.auth_token).json(payload);
 	}
 
 }
