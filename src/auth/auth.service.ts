@@ -9,18 +9,15 @@ export class AuthService {
 
 	constructor (
 		private userService: UsersService,
-		private jwtService: JwtService
 	) {}
 
 	async auth(authData: AuthDto) {
 		let payload = await this.validateUser(authData);
-		let { id } = payload;
 		
 		return {
 			id: payload.id,
 			userName: payload.userName,
 			userType: payload.userType,
-			auth_token: this.jwtService.sign(payload)
 		};
 	}
 
@@ -40,9 +37,5 @@ export class AuthService {
 		};
 
 		return payload;
-	}
-
-	async logout () {
-
 	}
 }

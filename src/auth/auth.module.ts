@@ -11,7 +11,7 @@ import { JwtStrategy } from "./guards/jwt.strategy";
 		UsersModule,
 		PassportModule,
 		JwtModule.register({
-			secret: process.env.JWT_SECRET
+			secret: process.env.JWT_SECRET || "supersecret"
 		})
 	],
 	controllers: [AuthController],

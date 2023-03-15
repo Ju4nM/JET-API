@@ -44,7 +44,7 @@ export class UsersService {
 	}
 
 	async findOne(id: string) {
-		return await this.UserModel.findById({id, userType: false}, { password: 0 });
+		return await this.UserModel.findById({_id: id, userType: false}, { password: 0 });
 	}
 
 	async findByUserName (userName: string, options: {} = {password: 0}) {
@@ -52,13 +52,13 @@ export class UsersService {
 	}
 
 	async update(id: string, updateUserDto: UpdateUserDto) {
-		return await this.UserModel.findByIdAndUpdate({id, userType: false}, updateUserDto, {
+		return await this.UserModel.findByIdAndUpdate({_id: id, userType: false}, updateUserDto, {
 			password: 0,
 		});
 	}
 
 	async remove(id: string) {
-		return await this.UserModel.findByIdAndRemove({id, userType: false}, { password: 0 });
+		return await this.UserModel.findByIdAndRemove({_id: id, userType: false}, { password: 0 });
 	}
 
 }
