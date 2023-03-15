@@ -9,17 +9,15 @@ import { TemperaturesModule } from "./temperatures/temperatures.module";
 import { NotificationsModule } from "./notifications/notifications.module";
 import { NotificationDetailService } from "./notification-detail/notification-detail.service";
 import { MongooseModule } from "@nestjs/mongoose";
-// import { ConfigModule } from "@nestjs/config";
+import { ConfigModule } from "@nestjs/config";
 import { AuthModule } from "./auth/auth.module";
 
 @Module({
 	imports: [
-		// ConfigModule.forRoot({
-		// 	envFilePath: ".env"
-		// }),
-		MongooseModule.forRoot(
-			"mongodb+srv://root:JETToor@jetcluster.drxxpnb.mongodb.net/jetdb",
-		),
+		ConfigModule.forRoot({
+			envFilePath: ".env"
+		}),
+		MongooseModule.forRoot(process.env.DATABASE_URI),
 		UsersModule,
 		ChangeHistoryModule,
 		LimitTemperaturesModule,
