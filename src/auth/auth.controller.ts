@@ -6,6 +6,7 @@ import {
 	UseGuards,
 	Get,
 	Req,
+	Header,
 } from "@nestjs/common";
 import {hash} from "bcrypt";
 import { Request, Response } from "express";
@@ -26,6 +27,8 @@ export class AuthController {
 
 
 	@Post("login")
+	@Header("Access-Control-Allow-Origin", "http://jetapptest.somee.com/")
+	@Header("Access-Control-Allow-Credentials", "true")
 	async login (@Body() authDto: AuthDto, @Res() res: Response ) {
 		let payload = await this.authService.auth(authDto);
 		return res.cookie("auth_token", payload.auth_token).json(payload);

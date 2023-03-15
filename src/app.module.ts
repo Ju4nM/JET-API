@@ -11,7 +11,6 @@ import { NotificationDetailService } from "./notification-detail/notification-de
 import { MongooseModule } from "@nestjs/mongoose";
 // import { ConfigModule } from "@nestjs/config";
 import { AuthModule } from "./auth/auth.module";
-import * as cors from "cors";
 
 @Module({
 	imports: [
@@ -33,11 +32,4 @@ import * as cors from "cors";
 	providers: [AppService, NotificationDetailService],
 })
 export class AppModule {
-	configure (consumer) {
-		consumer.apply(cors({
-			origin: ['http://jetapptest.somee.com', 'http://localhost:4200'],
-			credentials: true,
-		}))
-		.forRoutes("*");
-	}
 }
