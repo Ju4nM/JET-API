@@ -26,8 +26,7 @@ export class CreateUserDto {
 	// @IsString()
 	// @MaxLength(15)
 	@Length(3, 15, {
-		message:
-			"El apellido materno debe ser mayor a 3 digitos pero menor que 15",
+		message: "El apellido materno debe ser mayor a 3 digitos pero menor que 15",
 	})
 	secondLastName: string;
 
@@ -40,7 +39,7 @@ export class CreateUserDto {
 
 	// @IsString()
 	@IsEmail({}, { message: "El correo es invalido" })
-	@IsOptional()
+	// @IsOptional()
 	email: string;
 
 	// @IsString()

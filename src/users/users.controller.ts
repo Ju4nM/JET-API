@@ -7,7 +7,6 @@ import {
 	Param,
 	Delete,
 	Req,
-	UseGuards,
 } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -29,9 +28,9 @@ export class UsersController {
 		return await this.usersService.findAll();
 	}
 
-	@Get(":id")
-	async findOne(@Param("id") id: string) {
-		return await this.usersService.findOne(id);
+	@Get(":userName")
+	async findOne(@Param("userName") userName: string) {
+		return await this.usersService.findByUserName(userName);
 	}
 
 	@Put(":id")

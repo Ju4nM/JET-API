@@ -24,7 +24,6 @@ export class Sensor {
 	@Type(() => User)
 	user: User;
 
-	// TODO: do this
 	@Prop({ type: Types.ObjectId, ref: LimitTemperature.name, required: true })
 	@Type(() => LimitTemperature)
 	limitTemperature: LimitTemperature;

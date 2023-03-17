@@ -25,7 +25,6 @@ export class UsersService {
 			delete userCreated.password;
 			return userCreated;
 		} catch (error) {
-			console.log(error);
 			if (!error.code)
 				throw new HttpException({message: ["Error de servidor"]}, HttpStatus.INTERNAL_SERVER_ERROR);
 
@@ -47,11 +46,16 @@ export class UsersService {
 		return await this.UserModel.findById({_id: id, userType: false}, { password: 0 });
 	}
 
-	async findByUserName (userName: string, options: {} = {password: 0}) {
-		return await this.UserModel.findOne({userName}, options);
+	async findByUserName (userName: string, options: {} = {password: 0}, usingUserType = false) {
+		let filter: any = { userName };
+		if (usingUserType) filter.userType = true;
+		
+		return await this.UserModel.findOne(filter, options);
 	}
 
 	async update(id: string, updateUserDto: UpdateUserDto) {
+		if (updateUserDto.password) updateUserDto.password = await hash(updateUserDto.password, 8);
+
 		return await this.UserModel.findByIdAndUpdate({_id: id, userType: false}, updateUserDto, {
 			password: 0,
 		});
