@@ -2,7 +2,7 @@ import { IsMongoId, IsNumber, IsString } from "class-validator";
 
 export class CreateLimitTemperatureDto {
 	@IsNumber()
-	limitTemperature: number;
+	temperatureLimit: number;
 
 	@IsString()
 	@IsMongoId()

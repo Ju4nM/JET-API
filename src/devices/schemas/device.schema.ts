@@ -4,15 +4,12 @@ import { User } from "src/users/schemas/user.schema";
 import { Type } from "class-transformer";
 import { LimitTemperature } from "src/limit-temperatures/schemas/limit-temperature.schema";
 
-export type SensorDocument = HydratedDocument<Sensor>;
+export type DeviceDocument = HydratedDocument<Device>;
 
 @Schema({ timestamps: true })
-export class Sensor {
+export class Device {
 	@Prop({ required: true })
-	sensorName: string;
-
-	@Prop({ required: true })
-	sensorSerialNumber: string;
+	deviceName: string;
 
 	@Prop({ default: true, required: true })
 	state: boolean;
@@ -24,9 +21,12 @@ export class Sensor {
 	@Type(() => User)
 	user: User;
 
-	@Prop({ type: Types.ObjectId, ref: LimitTemperature.name, required: true })
+	@Prop({ type: Types.ObjectId, ref: LimitTemperature.name, required: false })
 	@Type(() => LimitTemperature)
 	limitTemperature: LimitTemperature;
+
+	@Prop({ required: true })
+	isSensor: boolean;
 }
 
-export const SensorSchema = SchemaFactory.createForClass(Sensor);
+export const DeviceSchema = SchemaFactory.createForClass(Device);

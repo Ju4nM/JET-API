@@ -4,30 +4,29 @@ import { AppService } from "./app.service";
 import { UsersModule } from "./users/users.module";
 import { ChangeHistoryModule } from "./change-history/change-history.module";
 import { LimitTemperaturesModule } from "./limit-temperatures/limit-temperatures.module";
-import { SensorsModule } from "./sensors/sensors.module";
 import { TemperaturesModule } from "./temperatures/temperatures.module";
 import { NotificationsModule } from "./notifications/notifications.module";
 import { NotificationDetailService } from "./notification-detail/notification-detail.service";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ConfigModule } from "@nestjs/config";
 import { AuthModule } from "./auth/auth.module";
+import { DevicesModule } from "./devices/devices.module";
 
 @Module({
 	imports: [
 		ConfigModule.forRoot({
-			envFilePath: ".env"
+			envFilePath: ".env",
 		}),
 		MongooseModule.forRoot(process.env.DATABASE_URI),
 		UsersModule,
 		ChangeHistoryModule,
 		LimitTemperaturesModule,
-		SensorsModule,
 		TemperaturesModule,
 		NotificationsModule,
 		AuthModule,
+		DevicesModule,
 	],
 	controllers: [AppController],
 	providers: [AppService, NotificationDetailService],
 })
-export class AppModule {
-}
+export class AppModule {}

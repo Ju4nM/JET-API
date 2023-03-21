@@ -7,9 +7,11 @@ import {
 	LimitTemperatureSchema,
 } from "./schemas/limit-temperature.schema";
 import { User, UserSchema } from "src/users/schemas/user.schema";
+import { DevicesModule } from "src/devices/devices.module";
 
 @Module({
 	imports: [
+		DevicesModule,
 		MongooseModule.forFeature([
 			{
 				name: LimitTemperature.name,

@@ -1,20 +1,22 @@
 import { Module } from "@nestjs/common";
-import { SensorsService } from "./sensors.service";
-import { SensorsController } from "./sensors.controller";
+import { DevicesService } from "./devices.service";
+import { DevicesController } from "./devices.controller";
 import { MongooseModule } from "@nestjs/mongoose";
-import { Sensor, SensorSchema } from "./schemas/sensor.schema";
+import { Device, DeviceSchema } from "./schemas/device.schema";
 import { User, UserSchema } from "src/users/schemas/user.schema";
 import {
 	LimitTemperature,
 	LimitTemperatureSchema,
 } from "src/limit-temperatures/schemas/limit-temperature.schema";
+import { UsersModule } from "src/users/users.module";
 
 @Module({
 	imports: [
+		UsersModule,
 		MongooseModule.forFeature([
 			{
-				name: Sensor.name,
-				schema: SensorSchema,
+				name: Device.name,
+				schema: DeviceSchema,
 			},
 			{
 				name: User.name,
@@ -26,7 +28,8 @@ import {
 			},
 		]),
 	],
-	controllers: [SensorsController],
-	providers: [SensorsService],
+	controllers: [DevicesController],
+	providers: [DevicesService],
+	exports: [DevicesService],
 })
-export class SensorsModule {}
+export class DevicesModule {}

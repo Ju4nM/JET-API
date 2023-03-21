@@ -26,43 +26,68 @@ export class UsersService {
 			return userCreated;
 		} catch (error) {
 			if (!error.code)
-				throw new HttpException({message: ["Error de servidor"]}, HttpStatus.INTERNAL_SERVER_ERROR);
+				throw new HttpException(
+					{ message: ["Error de servidor"] },
+					HttpStatus.INTERNAL_SERVER_ERROR,
+				);
 
 			if (error.keyPattern.userName === 1)
-				throw new HttpException({message: ["El usuario y esta en uso, favor de usar otro"]}, HttpStatus.CONFLICT);
+				throw new HttpException(
+					{
+						message: [
+							"El usuario y esta en uso, favor de usar otro",
+						],
+					},
+					HttpStatus.CONFLICT,
+				);
 
 			if (error.keyPattern.email == 1)
-				throw new HttpException({message: ["El email y esta en uso, favor de usar otro"]}, HttpStatus.CONFLICT);
-			
+				throw new HttpException(
+					{ message: ["El email y esta en uso, favor de usar otro"] },
+					HttpStatus.CONFLICT,
+				);
 		}
-
 	}
 
 	async findAll() {
-		return await this.UserModel.find({userType: false}, { password: 0 });
+		return await this.UserModel.find({ userType: false }, { password: 0 });
 	}
 
 	async findOne(id: string) {
-		return await this.UserModel.findById({_id: id, userType: false}, { password: 0 });
+		return await this.UserModel.findById(
+			{ _id: id, userType: false },
+			{ password: 0 },
+		);
 	}
 
-	async findByUserName (userName: string, options: {} = {password: 0}, usingUserType = false) {
+	async findByUserName(
+		userName: string,
+		options: {} = { password: 0 },
+		usingUserType = false,
+	) {
 		let filter: any = { userName };
 		if (usingUserType) filter.userType = true;
-		
+
 		return await this.UserModel.findOne(filter, options);
 	}
 
 	async update(id: string, updateUserDto: UpdateUserDto) {
-		if (updateUserDto.password) updateUserDto.password = await hash(updateUserDto.password, 8);
+		if (updateUserDto.password)
+			updateUserDto.password = await hash(updateUserDto.password, 8);
 
-		return await this.UserModel.findByIdAndUpdate({_id: id, userType: false}, updateUserDto, {
-			password: 0,
-		});
+		return await this.UserModel.findByIdAndUpdate(
+			{ _id: id, userType: false },
+			updateUserDto,
+			{
+				password: 0,
+			},
+		);
 	}
 
 	async remove(id: string) {
-		return await this.UserModel.findByIdAndRemove({_id: id, userType: false}, { password: 0 });
+		return await this.UserModel.findByIdAndRemove(
+			{ _id: id, userType: false },
+			{ password: 0 },
+		);
 	}
-
 }

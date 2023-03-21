@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Type } from "class-transformer";
 import { HydratedDocument, Types } from "mongoose";
-import { Sensor } from "src/sensors/schemas/sensor.schema";
+import { Device } from "src/devices/schemas/device.schema";
 
 export type TemperatureDocument = HydratedDocument<Temperature>;
 
@@ -10,9 +10,9 @@ export class Temperature {
 	@Prop({ required: true })
 	temperature: number;
 
-	@Prop({ type: Types.ObjectId, ref: Sensor.name, required: true })
-	@Type(() => Sensor)
-	sensor: Sensor;
+	@Prop({ type: Types.ObjectId, ref: Device.name, required: true })
+	@Type(() => Device)
+	sensor: Device;
 }
 
 export const TemperatureSchema = SchemaFactory.createForClass(Temperature);

@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+import { DevicesService } from "src/devices/devices.service";
 import { CreateLimitTemperatureDto } from "./dto/create-limit-temperature.dto";
 import { UpdateLimitTemperatureDto } from "./dto/update-limit-temperature.dto";
 import {
@@ -13,13 +14,17 @@ export class LimitTemperaturesService {
 	constructor(
 		@InjectModel(LimitTemperature.name)
 		private LimitTemperatureModel: Model<LimitTemperatureDocument>,
+		private deviceService: DevicesService,
 	) {}
 
-	create(createLimitTemperatureDto: CreateLimitTemperatureDto) {
+	async create(createLimitTemperatureDto: CreateLimitTemperatureDto) {
 		let newLimit = new this.LimitTemperatureModel(
 			createLimitTemperatureDto,
 		);
-		return newLimit.save();
+		let limit = await newLimit.save();
+
+		this.deviceService.updateTemperature(limit._id.toString());
+		return limit;
 	}
 
 	findAll() {
