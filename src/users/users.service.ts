@@ -25,27 +25,7 @@ export class UsersService {
 			delete userCreated.password;
 			return userCreated;
 		} catch (error) {
-			if (!error.code)
-				throw new HttpException(
-					{ message: ["Error de servidor"] },
-					HttpStatus.INTERNAL_SERVER_ERROR,
-				);
-
-			if (error.keyPattern.userName === 1)
-				throw new HttpException(
-					{
-						message: [
-							"El usuario y esta en uso, favor de usar otro",
-						],
-					},
-					HttpStatus.CONFLICT,
-				);
-
-			if (error.keyPattern.email == 1)
-				throw new HttpException(
-					{ message: ["El email y esta en uso, favor de usar otro"] },
-					HttpStatus.CONFLICT,
-				);
+			this.checkError(error);
 		}
 	}
 
@@ -75,13 +55,18 @@ export class UsersService {
 		if (updateUserDto.password)
 			updateUserDto.password = await hash(updateUserDto.password, 8);
 
-		return await this.UserModel.findByIdAndUpdate(
-			{ _id: id, userType: false },
-			updateUserDto,
-			{
-				password: 0,
-			},
-		);
+		try {
+			return await this.UserModel.findByIdAndUpdate(
+				{ _id: id, userType: false },
+				updateUserDto,
+				{
+					password: 0,
+				},
+			);
+
+		} catch (error) {
+			this.checkError(error);
+		}
 	}
 
 	async remove(id: string) {
@@ -89,5 +74,29 @@ export class UsersService {
 			{ _id: id, userType: false },
 			{ password: 0 },
 		);
+	}
+
+	checkError (error) {
+		if (!error.code)
+			throw new HttpException(
+				{ message: ["Error de servidor"] },
+				HttpStatus.INTERNAL_SERVER_ERROR,
+			);
+
+		if (error.keyPattern.userName === 1)
+			throw new HttpException(
+				{
+					message: [
+						"El usuario y esta en uso, favor de usar otro",
+					],
+				},
+				HttpStatus.CONFLICT,
+			);
+
+		if (error.keyPattern.email == 1)
+			throw new HttpException(
+				{ message: ["El email y esta en uso, favor de usar otro"] },
+				HttpStatus.CONFLICT,
+			);
 	}
 }
