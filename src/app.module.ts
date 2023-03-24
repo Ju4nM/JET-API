@@ -11,6 +11,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { ConfigModule } from "@nestjs/config";
 import { AuthModule } from "./auth/auth.module";
 import { DevicesModule } from "./devices/devices.module";
+import { NotificationDetailModule } from './notification-detail/notification-detail.module';
 
 @Module({
 	imports: [
@@ -25,6 +26,7 @@ import { DevicesModule } from "./devices/devices.module";
 		NotificationsModule,
 		AuthModule,
 		DevicesModule,
+		NotificationDetailModule,
 	],
 	controllers: [AppController],
 	providers: [AppService, NotificationDetailService],

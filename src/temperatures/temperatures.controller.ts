@@ -16,30 +16,35 @@ export class TemperaturesController {
 	constructor(private readonly temperaturesService: TemperaturesService) {}
 
 	@Post()
-	create(@Body() createTemperatureDto: CreateTemperatureDto) {
-		return this.temperaturesService.create(createTemperatureDto);
+	async create(@Body() createTemperatureDto: CreateTemperatureDto) {
+		return await this.temperaturesService.create(createTemperatureDto);
 	}
 
 	@Get()
-	findAll() {
-		return this.temperaturesService.findAll();
+	async findAll() {
+		return await this.temperaturesService.findAll();
+	}
+
+	@Get("dataToChart")
+	async getDataToChart () {
+		return await this.temperaturesService.getDataToChart();
 	}
 
 	@Get(":id")
 	findOne(@Param("id") id: string) {
-		return this.temperaturesService.findOne(+id);
+		return this.temperaturesService.findOne(id);
 	}
 
-	@Patch(":id")
-	update(
-		@Param("id") id: string,
-		@Body() updateTemperatureDto: UpdateTemperatureDto,
-	) {
-		return this.temperaturesService.update(+id, updateTemperatureDto);
-	}
+	// @Patch(":id")
+	// update(
+	// 	@Param("id") id: string,
+	// 	@Body() updateTemperatureDto: UpdateTemperatureDto,
+	// ) {
+	// 	return this.temperaturesService.update(id, updateTemperatureDto);
+	// }
 
-	@Delete(":id")
-	remove(@Param("id") id: string) {
-		return this.temperaturesService.remove(+id);
-	}
+	// @Delete(":id")
+	// remove(@Param("id") id: string) {
+	// 	return this.temperaturesService.remove(id);
+	// }
 }

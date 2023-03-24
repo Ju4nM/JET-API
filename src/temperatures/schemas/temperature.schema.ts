@@ -12,7 +12,7 @@ export class Temperature {
 
 	@Prop({ type: Types.ObjectId, ref: Device.name, required: true })
 	@Type(() => Device)
-	sensor: Device;
+	device: Device;
 }
 
 export const TemperatureSchema = SchemaFactory.createForClass(Temperature);

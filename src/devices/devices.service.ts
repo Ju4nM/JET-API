@@ -54,19 +54,20 @@ export class DevicesService {
 
 	async getCurrentDevices() {
 		let currentDevices = await this.DeviceModel.find({ isActive: true })
-			.populate({
-				path: "user",
-				select: this.selectUserOption,
-			})
 			.populate(this.tempPopulateOptions);
+			// .populate({
+			// 	path: "user",
+			// 	select: this.selectUserOption,
+			// })
 
 		if (currentDevices.length == 0) return [];
 
-		let sensor: Device = currentDevices.filter((device: Device) => device.isSensor)[0];
-		let noSensor: Device = currentDevices.filter((device: Device) => !device.isSensor)[0];
+		let sensor = currentDevices.filter((device: Device) => device.isSensor)[0];
+		let noSensor = currentDevices.filter((device: Device) => !device.isSensor)[0];
 		
 		let mapedData = {
 			sensor: {
+				id: sensor._id,
 				temperatureLimit: sensor.limitTemperature.limitTemperature
 			},
 			rele: {
