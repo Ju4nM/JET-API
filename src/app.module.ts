@@ -29,6 +29,6 @@ import { NotificationDetailModule } from './notification-detail/notification-det
 		NotificationDetailModule,
 	],
 	controllers: [AppController],
-	providers: [AppService, NotificationDetailService],
+	providers: [AppService],
 })
 export class AppModule {}

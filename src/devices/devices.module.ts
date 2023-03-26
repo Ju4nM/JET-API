@@ -9,10 +9,12 @@ import {
 	LimitTemperatureSchema,
 } from "src/limit-temperatures/schemas/limit-temperature.schema";
 import { UsersModule } from "src/users/users.module";
+import { ChangeHistoryModule } from "src/change-history/change-history.module";
 
 @Module({
 	imports: [
 		UsersModule,
+		ChangeHistoryModule,
 		MongooseModule.forFeature([
 			{
 				name: Device.name,

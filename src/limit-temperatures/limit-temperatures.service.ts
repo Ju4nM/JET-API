@@ -1,7 +1,9 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+import { ChangeHistoryService } from "src/change-history/change-history.service";
 import { DevicesService } from "src/devices/devices.service";
+import { UsersService } from "src/users/users.service";
 import { CreateLimitTemperatureDto } from "./dto/create-limit-temperature.dto";
 import { UpdateLimitTemperatureDto } from "./dto/update-limit-temperature.dto";
 import {
@@ -15,15 +17,30 @@ export class LimitTemperaturesService {
 		@InjectModel(LimitTemperature.name)
 		private LimitTemperatureModel: Model<LimitTemperatureDocument>,
 		private deviceService: DevicesService,
+		private userService: UsersService,
+		private changeHistoryService: ChangeHistoryService
 	) {}
 
 	async create(createLimitTemperatureDto: CreateLimitTemperatureDto) {
+		
+		let user = await this.userService.findOne(createLimitTemperatureDto.user);
+
+		if (user == null || user == undefined)
+			throw new HttpException({message: "El usuario no se encontro"}, HttpStatus.CONFLICT);
+
 		let newLimit = new this.LimitTemperatureModel(
 			createLimitTemperatureDto,
 		);
 		let limit = await newLimit.save();
 
 		this.deviceService.updateTemperature(limit._id.toString());
+
+		this.changeHistoryService.create({
+			user: user._id.toString(),
+			limitTemperature: limit._id.toString(),
+			state: null
+		});
+
 		return limit;
 	}
 

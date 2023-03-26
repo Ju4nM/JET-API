@@ -3,9 +3,9 @@ import {
 	Get,
 	Post,
 	Body,
-	Patch,
+	// Patch,
 	Param,
-	Delete,
+	// Delete,
 } from "@nestjs/common";
 import { NotificationsService } from "./notifications.service";
 import { CreateNotificationDto } from "./dto/create-notification.dto";
@@ -16,30 +16,30 @@ export class NotificationsController {
 	constructor(private readonly notificationsService: NotificationsService) {}
 
 	@Post()
-	create(@Body() createNotificationDto: CreateNotificationDto) {
-		return this.notificationsService.create(createNotificationDto);
+	async create(@Body() createNotificationDto: CreateNotificationDto) {
+		return await this.notificationsService.create(createNotificationDto);
 	}
 
 	@Get()
-	findAll() {
-		return this.notificationsService.findAll();
+	async findAll() {
+		return await this.notificationsService.findAll();
 	}
 
 	@Get(":id")
-	findOne(@Param("id") id: string) {
-		return this.notificationsService.findOne(+id);
+	async findOne(@Param("id") id: string) {
+		return await this.notificationsService.findOne(id);
 	}
 
-	@Patch(":id")
-	update(
-		@Param("id") id: string,
-		@Body() updateNotificationDto: UpdateNotificationDto,
-	) {
-		return this.notificationsService.update(+id, updateNotificationDto);
-	}
+	// @Patch(":id")
+	// update(
+	// 	@Param("id") id: string,
+	// 	@Body() updateNotificationDto: UpdateNotificationDto,
+	// ) {
+	// 	return this.notificationsService.update(+id, updateNotificationDto);
+	// }
 
-	@Delete(":id")
-	remove(@Param("id") id: string) {
-		return this.notificationsService.remove(+id);
-	}
+	// @Delete(":id")
+	// remove(@Param("id") id: string) {
+	// 	return this.notificationsService.remove(+id);
+	// }
 }

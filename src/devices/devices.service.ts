@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+import { ChangeHistoryService } from "src/change-history/change-history.service";
 import { UsersService } from "src/users/users.service";
 import { CreateDeviceDto } from "./dto/create-device.dto";
 import DeviceUpdatedResult from "./dto/deviceUpdatedResult.dto";
@@ -12,7 +13,8 @@ import { Device, DeviceDocument } from "./schemas/device.schema";
 export class DevicesService {
 	constructor(
 		@InjectModel(Device.name) private DeviceModel: Model<DeviceDocument>,
-		private userService: UsersService
+		private userService: UsersService,
+		private changeHistoryService: ChangeHistoryService
 	) {}
 
 	// this variable specifies what user data will be showed in the response
@@ -105,11 +107,13 @@ export class DevicesService {
 
 	async toggleFan (toggleFanDto: ToggleFanDto) {
 
-		let user = this.userService.findOne(toggleFanDto.user);
+		let user = await this.userService.findOne(toggleFanDto.user);
 		if (user == null) throw new HttpException({message: "Ha ocurrido un error"}, HttpStatus.UNAUTHORIZED);
 
 		let rele: Device = await this.DeviceModel.findOne({isSensor: false});
 		if (rele == null) throw new HttpException({message: "No se ha encontrado el dispositivo de la ventilacion"}, HttpStatus.CONFLICT);
+
+		this.changeHistoryService.create({state: !rele.state, user: user._id.toString(), limitTemperature: undefined});
 
 		let deviceUpdated: DeviceUpdatedResult = await this.DeviceModel.updateOne({isSensor: false}, {state: !rele.state});
 		return deviceUpdated;

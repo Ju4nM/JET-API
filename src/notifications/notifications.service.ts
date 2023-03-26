@@ -1,26 +1,46 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { ChangeHistoryService } from "src/change-history/change-history.service";
+import { NotificationDetailService } from "src/notification-detail/notification-detail.service";
 import { CreateNotificationDto } from "./dto/create-notification.dto";
-import { UpdateNotificationDto } from "./dto/update-notification.dto";
+import { Notification, NotificationDocument } from "./schemas/notification.schema";
 
 @Injectable()
 export class NotificationsService {
-	create(createNotificationDto: CreateNotificationDto) {
-		return "This action adds a new notification";
+	
+	constructor (
+		@InjectModel(Notification.name) private NotificationModel: Model<NotificationDocument>,
+		private notificationDetailService: NotificationDetailService,
+		private changeHistoryService: ChangeHistoryService
+	) {}
+
+	async create(createNotificationDto: CreateNotificationDto) {
+		let newNotification = new this.NotificationModel(createNotificationDto);
+		let notificationCreated = await newNotification.save();
+		let notificationCompleted = null;
+		
+		notificationCompleted = await this.notificationDetailService.createNotificationDetail({
+			...createNotificationDto,
+			notification: notificationCreated._id.toString()
+		});
+		
+		return notificationCompleted;
 	}
 
-	findAll() {
-		return `This action returns all notifications`;
+	async findAll() {
+		return await this.notificationDetailService.getAllNotificationsDetails();
 	}
 
-	findOne(id: number) {
-		return `This action returns a #${id} notification`;
+	async findOne(id: string) {
+		return await this.notificationDetailService.getNotificationDetail(id);
 	}
 
-	update(id: number, updateNotificationDto: UpdateNotificationDto) {
-		return `This action updates a #${id} notification`;
-	}
+	// update(id: number, updateNotificationDto: UpdateNotificationDto) {
+	// 	return `This action updates a #${id} notification`;
+	// }
 
-	remove(id: number) {
-		return `This action removes a #${id} notification`;
-	}
+	// remove(id: number) {
+	// 	return `This action removes a #${id} notification`;
+	// }
 }

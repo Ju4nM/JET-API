@@ -23,5 +23,6 @@ import { User, UserSchema } from "src/users/schemas/user.schema";
 	],
 	controllers: [ChangeHistoryController],
 	providers: [ChangeHistoryService],
+	exports: [ChangeHistoryService]
 })
 export class ChangeHistoryModule {}
