@@ -26,7 +26,7 @@ export class TemperaturesService {
 	}
 
 	async getDataToChart () {
-		return await this.TemperatureModel.find().sort({$natural: -1}).limit(50);
+		return await (await this.TemperatureModel.find().sort({$natural: -1}).limit(50)).reverse();
 	}
 
 	async getLast() {
