@@ -3,6 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { ChangeHistoryService } from "src/change-history/change-history.service";
 import { DevicesService } from "src/devices/devices.service";
+import { NotificationsService } from "src/notifications/notifications.service";
 import { UsersService } from "src/users/users.service";
 import { CreateLimitTemperatureDto } from "./dto/create-limit-temperature.dto";
 import { UpdateLimitTemperatureDto } from "./dto/update-limit-temperature.dto";
@@ -18,7 +19,8 @@ export class LimitTemperaturesService {
 		private LimitTemperatureModel: Model<LimitTemperatureDocument>,
 		private deviceService: DevicesService,
 		private userService: UsersService,
-		private changeHistoryService: ChangeHistoryService
+		private changeHistoryService: ChangeHistoryService,
+		private notificationService: NotificationsService
 	) {}
 
 	async create(createLimitTemperatureDto: CreateLimitTemperatureDto) {
@@ -33,13 +35,22 @@ export class LimitTemperaturesService {
 		);
 		let limit = await newLimit.save();
 
-		this.deviceService.updateTemperature(limit._id.toString());
-
-		this.changeHistoryService.create({
+		await this.deviceService.updateTemperature(limit._id.toString());
+		// Create a log in the change history document
+		await this.changeHistoryService.create({
 			user: user._id.toString(),
 			limitTemperature: limit._id.toString(),
 			state: null
 		});
+
+		await this.notificationService.create({
+			user: user._id.toString(),
+			limitTemperature: limit._id.toString(),
+			title: "Temperatura limite",
+			description: "Nueva temperatura limite registrada",
+			device: null,
+			changeHistory: null
+		})
 
 		return limit;
 	}

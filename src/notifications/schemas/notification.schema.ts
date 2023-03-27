@@ -10,9 +10,6 @@ export class Notification {
 
     @Prop({ required: true })
     description: string;
-
-    @Prop({ required: true })
-    notificationType: string;
 }
 
 export const NotificationSchema = SchemaFactory.createForClass(Notification);

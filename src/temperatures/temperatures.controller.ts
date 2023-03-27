@@ -30,7 +30,12 @@ export class TemperaturesController {
 		return await this.temperaturesService.getDataToChart();
 	}
 
-	@Get(":id")
+	@Get("last")
+	async getLastTemperature () {
+		return await this.temperaturesService.getLast();
+	}
+
+	// @Get(":id")
 	findOne(@Param("id") id: string) {
 		return this.temperaturesService.findOne(id);
 	}

@@ -6,6 +6,8 @@ import { Notification, NotificationSchema } from "./schemas/notification.schema"
 import { NotificationDetailModule } from "src/notification-detail/notification-detail.module";
 import { NotificationDetail, NotificationDetailSchema } from "src/notification-detail/schemas/notificationDetail.schema";
 import { ChangeHistoryModule } from "src/change-history/change-history.module";
+import { User, UserSchema } from "src/users/schemas/user.schema";
+import { LimitTemperature, LimitTemperatureSchema } from "src/limit-temperatures/schemas/limit-temperature.schema";
 
 @Module({
 	imports: [
@@ -24,5 +26,6 @@ import { ChangeHistoryModule } from "src/change-history/change-history.module";
 	],
 	controllers: [NotificationsController],
 	providers: [NotificationsService],
+	exports: [NotificationsService]
 })
 export class NotificationsModule {}

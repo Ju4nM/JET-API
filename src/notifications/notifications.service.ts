@@ -18,9 +18,7 @@ export class NotificationsService {
 	async create(createNotificationDto: CreateNotificationDto) {
 		let newNotification = new this.NotificationModel(createNotificationDto);
 		let notificationCreated = await newNotification.save();
-		let notificationCompleted = null;
-		
-		notificationCompleted = await this.notificationDetailService.createNotificationDetail({
+		let notificationCompleted = await this.notificationDetailService.createNotificationDetail({
 			...createNotificationDto,
 			notification: notificationCreated._id.toString()
 		});

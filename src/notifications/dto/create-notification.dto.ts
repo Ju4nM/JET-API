@@ -17,6 +17,10 @@ export class CreateNotificationDto {
     device: string;
 
     @IsOptional()
-    @IsBoolean({message: "El valor del estado de la ventilacion no es valido"})
-    fanState: boolean;
+    @IsMongoId({message: "El ID de limite de temeperatura no es valido"})
+    limitTemperature: string;
+
+    @IsOptional()
+    @IsMongoId({message: "El ID del cambio no es valido"})
+    changeHistory: string;
 }

@@ -29,6 +29,10 @@ export class TemperaturesService {
 		return await this.TemperatureModel.find().sort({$natural: -1}).limit(50);
 	}
 
+	async getLast() {
+		return await this.TemperatureModel.findOne().sort({$natural: -1});//.limit(1);
+	}
+
 	// update(id: number, updateTemperatureDto: UpdateTemperatureDto) {
 	// 	return `This action updates a #${id} temperature`;
 	// }

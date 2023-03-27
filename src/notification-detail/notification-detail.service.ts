@@ -7,19 +7,35 @@ import { NotificationDetail, NotificationDetailDocument } from "./schemas/notifi
 @Injectable()
 export class NotificationDetailService {
 
-    userPopulateOptions = {
-        path: "user",
-        select: {
-            password: 0,
-            email: 0
-        }
-    }
+    populateOptions = {
+        user: {
+            path: "user",
+            select: {
+                password: 0,
+                email: 0
+            }
+        },
 
-    devicePopulateOptions = {
-        path: "device",
-        select: {
-            user: 0,
-            temperatureLimit: 0
+        device: {
+            path: "device",
+            select: {
+                user: 0,
+                temperatureLimit: 0
+            }
+        },
+
+        changeHistory: {
+            path: "changeHistory", 
+            select: {
+                user: 0
+            }
+        },
+
+        limitTemperature: {
+            path: "limitTemperature",
+            select: {
+                user: 0
+            }
         }
     }
 
@@ -34,13 +50,19 @@ export class NotificationDetailService {
 
     async getAllNotificationsDetails () {
         return await this.NotificationDetailModel.find()
-            .populate(this.userPopulateOptions)
-            .populate(this.devicePopulateOptions);
+            .populate(this.populateOptions.user)
+            .populate(this.populateOptions.device)
+            .populate(this.populateOptions.changeHistory)
+            .populate(this.populateOptions.limitTemperature)
+            .populate("notification");
     }
 
     async getNotificationDetail (id: string) {
         return await this.NotificationDetailModel.findById(id)
-            .populate(this.userPopulateOptions)
-            .populate(this.devicePopulateOptions);
+            .populate(this.populateOptions.user)
+            .populate(this.populateOptions.device)
+            .populate(this.populateOptions.changeHistory)
+            .populate(this.populateOptions.limitTemperature)
+            .populate("notification");
     }
 }
