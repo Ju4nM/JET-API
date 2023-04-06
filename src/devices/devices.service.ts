@@ -131,6 +131,7 @@ export class DevicesService {
 		});
 
 		let deviceUpdated: DeviceUpdatedResult = await this.DeviceModel.updateOne({isSensor: false}, {state: !rele.state});
-		return deviceUpdated;
+		let recordUpdated = {... deviceUpdated, releState: !rele.state };
+		return recordUpdated;
 	}
 }
