@@ -1,4 +1,4 @@
-import { IsBoolean, IsMongoId, IsOptional } from "class-validator";
+import { IsBoolean, IsMongoId, IsOptional, IsString } from "class-validator";
 
 export class CreateChangeHistoryDto {
 
@@ -13,4 +13,6 @@ export class CreateChangeHistoryDto {
 	@IsMongoId({message: "El ID de temperatura es incorrecto"})
 	limitTemperature: string;
 
+	@IsString()
+	changeType: string;
 }

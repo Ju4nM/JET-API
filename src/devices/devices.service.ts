@@ -118,7 +118,8 @@ export class DevicesService {
 		let change = await this.changeHistoryService.create({
 			state: !rele.state,
 			user: user._id.toString(),
-			limitTemperature: undefined
+			limitTemperature: undefined,
+			changeType: "toggledFan"
 		});
 
 		this.notificationService.create({

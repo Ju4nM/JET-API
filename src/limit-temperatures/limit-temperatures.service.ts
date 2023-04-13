@@ -40,7 +40,8 @@ export class LimitTemperaturesService {
 		await this.changeHistoryService.create({
 			user: user._id.toString(),
 			limitTemperature: limit._id.toString(),
-			state: null
+			state: null,
+			changeType: "limitUpdated"
 		});
 
 		await this.notificationService.create({

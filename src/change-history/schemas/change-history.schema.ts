@@ -21,6 +21,9 @@ export class ChangeHistory {
 	@Prop({ type: Types.ObjectId, ref: LimitTemperature.name, default: null})
 	@Type(() => LimitTemperature)
 	limitTemperature: LimitTemperature;
+
+	@Prop({ required: true })
+	changeType: string;
 }
 
 export const ChangeHistorySchema = SchemaFactory.createForClass(ChangeHistory);
