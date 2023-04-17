@@ -40,6 +40,16 @@ export class TemperaturesController {
 		return this.temperaturesService.findOne(id);
 	}
 
+	@Get("range/:initialDate/:finalDate")
+	async getRange(@Param("initialDate") initialDate: string, @Param("finalDate") finalDate: string) {
+		return await this.temperaturesService.getRange(initialDate, finalDate);
+	}
+
+	@Get("minDate")
+	async getMinDate () {
+		return await this.temperaturesService.getMinDate();
+	}
+
 	// @Patch(":id")
 	// update(
 	// 	@Param("id") id: string,

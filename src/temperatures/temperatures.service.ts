@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { CreateTemperatureDto } from "./dto/create-temperature.dto";
@@ -33,6 +33,20 @@ export class TemperaturesService {
 		return await this.TemperatureModel.findOne().sort({$natural: -1});//.limit(1);
 	}
 
+	async getRange (initialDate: string = null, finalDate: string = null) {
+		if (initialDate == null || finalDate == null) throw new HttpException("Some of the parameters are null", HttpStatus.BAD_REQUEST);
+
+		return await this.TemperatureModel.find({
+			$and: [
+				{dateOfChange: {$gte: new Date(initialDate)}},
+				{dateOfChange: {$lte: new Date(finalDate)}}
+			]
+		})
+	}
+
+	async getMinDate () {
+		return await this.TemperatureModel.find().limit(1);
+	}
 	// update(id: number, updateTemperatureDto: UpdateTemperatureDto) {
 	// 	return `This action updates a #${id} temperature`;
 	// }
