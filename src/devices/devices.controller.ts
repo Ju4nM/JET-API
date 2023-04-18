@@ -50,4 +50,9 @@ export class DevicesController {
 	remove(@Param("id") id: string) {
 		return this.devicesService.remove(id);
 	}
+	
+	@Post("setFanAutomatic")
+	async setFanAutomatic (@Body() data: ToggleFanDto) {
+		return this.devicesService.setFanAutomatic(data);
+	}
 }

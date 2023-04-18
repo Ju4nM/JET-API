@@ -75,7 +75,8 @@ export class DevicesService {
 				temperatureLimit: sensor.limitTemperature.limitTemperature
 			},
 			rele: {
-				state: noSensor.state
+				state: noSensor.state,
+				automatic: noSensor.automatic
 			}
 		};
 
@@ -133,6 +134,19 @@ export class DevicesService {
 
 		let deviceUpdated: DeviceUpdatedResult = await this.DeviceModel.updateOne({isSensor: false}, {state: !rele.state});
 		let recordUpdated = {... deviceUpdated, releState: !rele.state };
+		return recordUpdated;
+	}
+
+	async setFanAutomatic (data: ToggleFanDto) {
+		
+		let user = await this.userService.findOne(data.user);
+		if (user == null) throw new HttpException({message: "Ha ocurrido un error"}, HttpStatus.UNAUTHORIZED);
+
+		let rele: Device = await this.DeviceModel.findOne({isSensor: false});
+		if (rele == null) throw new HttpException({message: "No se ha encontrado el dispositivo de la ventilacion"}, HttpStatus.CONFLICT);
+		
+		let deviceUpdated: DeviceUpdatedResult = await this.DeviceModel.updateOne({isSensor: false}, {automatic: !rele.automatic});
+		let recordUpdated = {... deviceUpdated, automatic: !rele.automatic};
 		return recordUpdated;
 	}
 }

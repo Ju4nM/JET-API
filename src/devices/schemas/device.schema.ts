@@ -27,6 +27,9 @@ export class Device {
 
 	@Prop({ required: true })
 	isSensor: boolean;
+
+	@Prop({ required: true, default: null })
+	automatic: boolean;
 }
 
 export const DeviceSchema = SchemaFactory.createForClass(Device);
