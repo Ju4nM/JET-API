@@ -6,6 +6,7 @@ import {
 	Patch,
 	Param,
 	Delete,
+	HttpCode,
 } from "@nestjs/common";
 import { DevicesService } from "./devices.service";
 import { CreateDeviceDto } from "./dto/create-device.dto";
@@ -52,6 +53,7 @@ export class DevicesController {
 	}
 	
 	@Post("setFanAutomatic")
+	@HttpCode(200)
 	async setFanAutomatic (@Body() data: ToggleFanDto) {
 		return this.devicesService.setFanAutomatic(data);
 	}
